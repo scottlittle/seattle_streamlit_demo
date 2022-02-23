@@ -15,137 +15,137 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# # PART 1
+# PART 1
 
-# st.write('''
-# # Welcome To Streamlit!
+st.write('''
+# Welcome To Streamlit!
 
-# In this streamlit app we will cover:
+In this streamlit app we will cover:
 
-# - Markdown
-# - Importing Data
-# - Displaying DataFrames
-# - Graphing
-# - Interactivity with Buttons
-# - Mapping
-# - Making Predictions with User Input
-# ''')
+- Markdown
+- Importing Data
+- Displaying DataFrames
+- Graphing
+- Interactivity with Buttons
+- Mapping
+- Making Predictions with User Input
+''')
 
-# # PART 2
+# PART 2
 
-# st.write(
-# '''
-# You can use markdown syntax to style your text
+st.write(
+'''
+You can use markdown syntax to style your text
 
-# Headers:
-# # Main Title 
-# ## Sub Title 
-# ### header 
+Headers:
+# Main Title 
+## Sub Title 
+### header 
 
-# **bold text**
+**bold text**
 
-# *italics*
+*italics*
 
-# Ordered List
+Ordered List
 
-# 1. Apples 
-# 2. Oranges 
-# 3. Bananas 
+1. Apples 
+2. Oranges 
+3. Bananas 
 
-# [This is a link](https://docs.streamlit.io/en/stable/getting_started.html)
+[This is a link](https://docs.streamlit.io/en/stable/getting_started.html)
 
 
-# '''
-# )
+'''
+)
 
-# # PART 3
+# PART 3
 
-# st.write(
-# '''
-# ## Seattle Home Prices
-# We can import data into our streamlit app using pandas read_csv then display the resulting dataframe with st.dataframe()
+st.write(
+'''
+## Seattle Home Prices
+We can import data into our streamlit app using pandas read_csv then display the resulting dataframe with st.dataframe()
 
-# ''')
+''')
 
-# data = pd.read_csv('SeattleHomePrices.csv')
-# data = data.rename(columns={'LATITUDE': 'lat', 'LONGITUDE': 'lon'})
-# st.dataframe(data)
+data = pd.read_csv('SeattleHomePrices.csv')
+data = data.rename(columns={'LATITUDE': 'lat', 'LONGITUDE': 'lon'})
+st.dataframe(data)
 
-# # PART 4
+# PART 4
 
-# st.write(
-# '''
-# ### Graphing and Buttons
-# Lets graph some of our data with matplotlib. We can also add buttons to add interactivity to our app.
-# '''
-# )
+st.write(
+'''
+### Graphing and Buttons
+Lets graph some of our data with matplotlib. We can also add buttons to add interactivity to our app.
+'''
+)
 
-# fig, ax = plt.subplots()
+fig, ax = plt.subplots()
 
-# ax.hist(data['PRICE'])
-# ax.set_title('Distribution of House Prices in $100,000s')
+ax.hist(data['PRICE'])
+ax.set_title('Distribution of House Prices in $100,000s')
 
-# show_graph = st.checkbox('Show Graph', value=True)
+show_graph = st.checkbox('Show Graph', value=True)
 
-# if show_graph:
-#     st.pyplot(fig)
+if show_graph:
+    st.pyplot(fig)
 
-# # PART 5
+# PART 5
     
-# st.write(
-# '''
-# ### Mapping and Filtering Our Data
-# We can also use streamlits built in mapping functionality.
-# We can use a slider to filter for houses within a particular price range as well.
-# '''
-# )
+st.write(
+'''
+### Mapping and Filtering Our Data
+We can also use streamlits built in mapping functionality.
+We can use a slider to filter for houses within a particular price range as well.
+'''
+)
 
-# price_input = st.slider('House Price Filter', int(data['PRICE'].min()), int(data['PRICE'].max()), 100000 )
+price_input = st.slider('House Price Filter', int(data['PRICE'].min()), int(data['PRICE'].max()), 100000 )
 
-# price_filter = data['PRICE'] < price_input
-# st.map(data.loc[price_filter, ['lat', 'lon']])
+price_filter = data['PRICE'] < price_input
+st.map(data.loc[price_filter, ['lat', 'lon']])
 
-# # PART 6
+# PART 6
 
-# st.write(
-# '''
-# ## Train a linear Regression Model
-# Create a model to predict house price from sqft and number of beds
-# '''
-# ) 
+st.write(
+'''
+## Train a linear Regression Model
+Create a model to predict house price from sqft and number of beds
+'''
+) 
 
-# from sklearn.linear_model import LinearRegression
-# from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
 
-# clean_data = data.dropna(subset=['PRICE', 'SQUARE FEET', 'BEDS'])
+clean_data = data.dropna(subset=['PRICE', 'SQUARE FEET', 'BEDS'])
 
-# X = clean_data[['SQUARE FEET', 'BEDS']]
-# y = clean_data['PRICE']
+X = clean_data[['SQUARE FEET', 'BEDS']]
+y = clean_data['PRICE']
 
-# X_train, X_test, y_train, y_test = train_test_split(X, y)
+X_train, X_test, y_train, y_test = train_test_split(X, y)
 
-# # Notice the R^2 value is changing. This file is run on every update!
-# # X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+# Notice the R^2 value is changing. This file is run on every update!
+# X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
-# lr = LinearRegression()
+lr = LinearRegression()
 
-# lr.fit(X_train, y_train)
-# st.write(f'R2: {lr.score(X_test, y_test):.2f}')
+lr.fit(X_train, y_train)
+st.write(f'R2: {lr.score(X_test, y_test):.2f}')
 
-# # PART 7
+# PART 7
 
-# st.write(
-# '''
-# ## Make predictions with the trained model from user input
-# '''
-# )
+st.write(
+'''
+## Make predictions with the trained model from user input
+'''
+)
 
-# sqrft = st.number_input('Square Footage of House', value=2000)
-# beds = st.number_input('Number of Bedrooms', value=3)
+sqrft = st.number_input('Square Footage of House', value=2000)
+beds = st.number_input('Number of Bedrooms', value=3)
 
-# input_data = pd.DataFrame({'sqrft': [sqrft], 'beds': [beds]})
-# pred = lr.predict(input_data)[0]
-# st.write(
-# f'Predicted Sale Price of House: ${pred:.2f}'
-# )
+input_data = pd.DataFrame({'sqrft': [sqrft], 'beds': [beds]})
+pred = lr.predict(input_data)[0]
+st.write(
+f'Predicted Sale Price of House: ${pred:.2f}'
+)
 
